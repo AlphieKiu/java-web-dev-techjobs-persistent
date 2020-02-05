@@ -1,6 +1,7 @@
 package org.launchcode.javawebdevtechjobspersistent.controllers;
 
 import org.launchcode.javawebdevtechjobspersistent.models.Skill;
+import org.launchcode.javawebdevtechjobspersistent.models.data.EmployerRepository;
 import org.launchcode.javawebdevtechjobspersistent.models.data.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ public class SkillController {
 
     @Autowired
     private SkillRepository skillRepository;
+
+    @Autowired
+    private EmployerRepository employerRepository;
 
     @GetMapping
     public String displayAllSkills(Model model) {
@@ -44,12 +48,13 @@ public class SkillController {
     }
 
     @GetMapping("view/{skillId}")
-    public String displayViewEmployer(Model model, @PathVariable int skillId) {
+    public String displayViewSkill(Model model, @PathVariable int skillId) {
 
         Optional<Skill> optSkill = skillRepository.findById(skillId);
         if (optSkill.isPresent()) {
             Skill skill = (Skill)optSkill.get();
             model.addAttribute("skill", skill);
+            model.addAttribute("jobs", skill.getJobs());
             return "skills/view";
         } else {
             return "redirect:../";
