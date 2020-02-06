@@ -32,7 +32,7 @@ public class HomeController {
     private JobRepository jobRepository;
 
 
-    @RequestMapping("")
+    @GetMapping
     public String index(Model model) {
 
         model.addAttribute("title", "My Jobs");
